@@ -11,7 +11,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Hello World! Microservicio JS');
 });
-app.use('/user', userRoutes);
+app.use('/api/v1/users', userRoutes);
 
 app.listen(port, () => {
   console.log(`Server started on http://localhost:${port}`);
