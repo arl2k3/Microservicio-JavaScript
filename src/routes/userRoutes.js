@@ -1,5 +1,5 @@
 const express = require('express');
-const { allUsers, getUserByUsername, registerUser, updatedUser} = require('../controllers/userControllers');
+const { registerUser, allUsers, getUserByEmail, getUserByUsername, updatedUser, patchedUser, deletedUser} = require('../controllers/userControllers');
 
 const router = express.Router();
 
@@ -7,14 +7,15 @@ const router = express.Router();
 router.post('/', registerUser);
 
 router.get('/all', allUsers);
+router.get('/:email?', getUserByEmail ); 
 router.get('/:user', getUserByUsername ); 
 
 
 router.put('/:user', updatedUser);
 
-// router.patch('/:user', patchedUser);
+router.patch('/:user', patchedUser);
 
-// router.delete('/:user', deletedUser);
+router.delete('/:user', deletedUser);
 
 
 module.exports = router;

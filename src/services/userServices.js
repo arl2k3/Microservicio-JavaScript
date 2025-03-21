@@ -17,6 +17,26 @@ async function getByUsername (username) {
   }
 }
 
+async function create_User(userData) {
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        user: userData.user,
+        email: userData.email,
+        password: userData.password,
+        recovery_email: userData.recovery_email || null,
+        verified: false,
+        verificationCode: userData.verificationCode || null,
+        isAdmin: false
+      }
+    });
+    return newUser;
+  }
+  catch (error) {
+    throw new Error('Error al crear el usuario: ' + error.message);
+  }
+}
+
 async function getAllUsers() {
   try {
     const users = await prisma.user.findMany();
@@ -27,25 +47,21 @@ async function getAllUsers() {
   }
 }
 
-async function postUser(userData){
+async function getByEmail (email) {
   try {
-    const newUser = await prisma.user.create({
-      data: {
-        user: userData.user,
-        email: userData.email,
-        recovery_email: userData.recovery_email,
-        password: userData.password,
-        verified: false,
-        verificationCode: ''
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email
       }
     });
-    return newUser;
-  } catch (error) {
-    throw new Error('Error al crear el usuario: ' + error.message);
+    return user;
+  }
+  catch (error) {
+    throw new Error('Error al obtener el usuario: ' + error.message);
   }
 }
 
-async function putUser (usernameOrEmail, userData) {
+async function putUser(usernameOrEmail, userData) {
   try {
     const user = await prisma.user.updateMany({
       where: {
@@ -57,16 +73,53 @@ async function putUser (usernameOrEmail, userData) {
       data: {
         user: userData.user,
         email: userData.email,
-        recovery_email: userData.recovery_email,
         password: userData.password,
+        recovery_email: userData.recovery_email,
         verified: userData.verified,
-        verificationCode: userData.verificationCode
+        verificationCode: userData.verificationCode,
       }
-    })
+    });
     return user;
-  } catch (error) {
+  }
+  catch (error) {
     throw new Error('Error al actualizar el usuario: ' + error.message);
   }
 }
 
-module.exports = { getByUsername, getAllUsers, postUser, putUser};
+async function patchUser(username, userData) {
+  try {
+    const validationResult = userSchema.partial().safeParse(userData);
+    
+    if (!validationResult.success) {
+      throw new Error(`Datos de usuario inválidos: ${validationResult.error.message}`);
+    }
+
+    const user = await prisma.user.updateMany({
+      where: {
+        user: username
+      },
+      data: validationResult.data
+    });
+    
+    return user;
+  }
+  catch (error) {
+    throw new Error('Error al actualizar el usuario: ' + error.message);
+  }
+}
+
+async function deleteUser(username) {
+  try {
+    const user = await prisma.user.delete({
+      where: {
+        user: username,
+      },
+    });
+    return user;
+  } catch (error) {
+    throw new Error('Error al eliminar el usuario: ' + error.message);
+  }
+  
+}
+
+module.exports = { getByUsername, create_User, getAllUsers, getByEmail, putUser, patchUser, deleteUser};
