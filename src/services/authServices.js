@@ -21,4 +21,22 @@ async function verifyByEmail(email) {
     }
 }
 
-    module.exports = { verifyByEmail };
+
+async function resetPass( email, password) {
+    try {
+        const user = await prisma.user.update({
+            where: {
+                email: email
+            },
+            data: {
+                password: password
+            }
+        });
+        return user;
+    }
+    catch (error) {
+        throw new Error('Error al actualizar la contraseña: ' + error.message);
+    }
+
+}
+    module.exports = { verifyByEmail, resetPass };
