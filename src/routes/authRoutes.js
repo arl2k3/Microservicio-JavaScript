@@ -3,7 +3,7 @@ const { loginUser, requestPasswordReset, resetPassword, verifyAcc } = require('.
 
 const router = express.Router();
 
-router.post('/verifyEmail', verifyAcc);
+router.post('/verifyAcc', verifyAcc);
 
 
 // Tarea

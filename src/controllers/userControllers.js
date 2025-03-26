@@ -56,7 +56,7 @@ const registerUser = async (req, res) => {
             sendEmail(
                 newUser.email, 
                 "Verifica tu email", 
-                `Hola ${newUser.user}, verifica tu email en: /api/v1/verify , tu código de verificación es: ${verificationCode}`
+                `Hola ${newUser.user}, verifica tu email en: /verify-Acc , tu código de verificación es: ${verificationCode}`
             );
         }
 

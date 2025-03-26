@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forgot Password</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="h-full bg-white">
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <img class="mx-auto h-10 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+      <h2 class="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">Reset your password</h2>
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form id="emailForm" class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-900">Email address</label>
+          <div class="mt-2">
+            <input type="email" name="email" id="email" autocomplete="email" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm">
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Send verification code
+          </button>
+        </div>
+      </form>
+
+      <form id="verificationForm" class="space-y-6 hidden">
+        <div>
+          <label for="verificationCode" class="block text-sm font-medium text-gray-900">Verification code</label>
+          <div class="mt-2">
+            <input type="text" name="verificationCode" id="verificationCode" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" placeholder="Enter 6-digit code">
+          </div>
+          <p class="mt-2 text-sm text-gray-500">
+            A 6-digit verification code has been sent to your email.
+          </p>
+        </div>
+
+        <div>
+          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Verify code
+          </button>
+        </div>
+      </form>
+
+      <form id="newPasswordForm" class="space-y-6 hidden">
+        <div>
+          <label for="newPassword" class="block text-sm font-medium text-gray-900">New password</label>
+          <div class="mt-2">
+            <input type="password" name="newPassword" id="newPassword" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm" placeholder="Between 6 and 20 characters">
+          </div>
+        </div>
+
+        <div>
+          <label for="confirmNewPassword" class="block text-sm font-medium text-gray-900">Confirm new password</label>
+          <div class="mt-2">
+            <input type="password" name="confirmNewPassword" id="confirmNewPassword" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm">
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Reset password
+          </button>
+        </div>
+      </form>
+
+      <p class="mt-10 text-center text-sm text-gray-500">
+        Remember your password?
+        <a href="/login" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign in here</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    let userEmail = "";
+    document.getElementById("emailForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+    
+      userEmail = document.getElementById("email").value;
+
+      try {
+        
+        const response = await fetch("/api/v1/auth/request-password-reset", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email: userEmail })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+        document.getElementById("emailForm").classList.add("hidden");
+        document.getElementById("verificationForm").classList.remove("hidden");
+        } else {
+          alert(result.message|| "Error: Could not send verification code");
+        }
+
+      } catch (error) {
+        alert("An error occurred:"+ error.message);
+      }
+
+    });
+
+    document.getElementById("verificationForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const verificationCode = document.getElementById("verificationCode").value;
+
+      if(!/^\d{6}$/.test(verificationCode)){
+        alert("Please enter a 6-digit code");
+        return;
+      }
+
+      localStorage.setItem("verificationCode", verificationCode);
+      document.getElementById("verificationForm").classList.add("hidden");
+      document.getElementById("newPasswordForm").classList.remove("hidden");
+    });
+      
+    document.getElementById("newPasswordForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const newPassword = document.getElementById("newPassword").value;
+      const confirmNewPassword = document.getElementById("confirmNewPassword").value;
+      const verificationCode = localStorage.getItem("verificationCode");
+
+      if(newPassword !== confirmNewPassword){
+        alert("Passwords do not match");
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/v1/auth/reset-password/${encodeURIComponent(userEmail)}', {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ 
+            verificationCode:verificationCode,
+            password:newPassword })
+        });
+
+        const result = await response.json();
+
+        if(response.ok){
+          alert("Password reset successful");
+          window.location.href = "/login";
+        } else {
+          alert(result.message || "Error: Could not reset password");
+        }
+
+      } catch (error) {
+        alert("An error occurred: " + error.message);
+      }
+    });
+  </script>
+</body>
+</html><>
