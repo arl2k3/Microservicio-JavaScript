@@ -8,3 +8,5 @@ https://www.canva.com/design/DAGiO_RFtrM/aZRSF2KYO-vMoWABFtRcXw/edit?utm_content
 https://www.canva.com/design/DAGiGs5xnwg/eOwer8-7OIhuDYmD20oaqw/edit?utm_content=DAGiGs5xnwg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 ## Clase 4 ##
 https://www.canva.com/design/DAGiUr0v1zo/CwTukp_-ML8QuOArn75LVQ/edit?utm_content=DAGiUr0v1zo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+## Clase 5 ##
+https://www.canva.com/design/DAGimE9LSUU/BHMz8N_aAt08TH6MYu14VQ/edit?utm_content=DAGimE9LSUU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
