@@ -4,6 +4,7 @@ const authRoutes = require('./src/routes/authRoutes');
 const userRoutes = require('./src/routes/userRoutes');
 const { errorHandler, notFoundHandler, malformedJsonHandler } = require('./src/middleware/errorHandler');
 const path = require('path');
+const setupSwagger = require('./src/config/swaggerConfig');
 
 const app = express();
 
@@ -33,6 +34,8 @@ app.get("/verify-Acc", (req, res)=>{
 app.get("/forgot-password", (req, res)=>{
     res.render("forgotPass");
 });
+
+setupSwagger(app);
 
 // Rutas
 app.use('/api/v1/auth', authRoutes);
