@@ -14,3 +14,5 @@ https://www.canva.com/design/DAGimE9LSUU/BHMz8N_aAt08TH6MYu14VQ/edit?utm_content
 https://www.canva.com/design/DAGimk0aP50/KOH79DUjtb66mBPS_ILfRg/edit?utm_content=DAGimk0aP50&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 ## Clase 7 ##
 https://www.canva.com/design/DAGitGwXThA/g8l8ntQ7pthMN9_QzewDhA/edit?utm_content=DAGitGwXThA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+## Clase 8 ##
+https://www.canva.com/design/DAGjQknP-XY/TzmO01jFeSXEv7KueWAJVQ/edit?utm_content=DAGjQknP-XY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
