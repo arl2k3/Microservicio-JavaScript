@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL="postgresql://postgres:BYHWEOOQueTZUhrhrvWyXjJxkAruPdJd@ballast.proxy.rlwy.net:11515/railway"
+      - PORT = 3000
+      - EMAIL_USER="harryson.arl0k3@gmail.com"
+      - EMAIL_PASS="bnqd bvkq sroy pshl"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm start
